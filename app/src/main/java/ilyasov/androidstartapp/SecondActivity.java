@@ -1,8 +1,6 @@
 package ilyasov.androidstartapp;
 
 import androidx.appcompat.app.AppCompatActivity;
-
-import android.widget.TextView;
 import android.os.Bundle;
 
 public class SecondActivity extends AppCompatActivity {
