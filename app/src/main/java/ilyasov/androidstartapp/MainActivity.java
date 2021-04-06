@@ -11,8 +11,6 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
-import java.io.FileOutputStream;
-import java.io.IOException;
 
 public class MainActivity extends AppCompatActivity {
     Thread thread;
@@ -40,15 +38,8 @@ public class MainActivity extends AppCompatActivity {
         OnClickListener saveClick= new OnClickListener() {
             @Override
             public void onClick(View v) {
-                try {
-                    FileOutputStream fos = openFileOutput(FILE_NAME, MODE_PRIVATE);
-                    fos.write(toActivity.getBytes());
-                    Toast toast = Toast.makeText(v.getContext(), "Файл сохранен", Toast.LENGTH_LONG);
-                    toast.show();
-                } catch (IOException e) {
-                    Toast toast = Toast.makeText(getBaseContext(), e.getMessage(), Toast.LENGTH_LONG);
-                    toast.show();
-                }
+                FileManager manager = new FileManager();
+                manager.setDataToFile(FILE_NAME, toActivity, getBaseContext());
             }
         };
 
