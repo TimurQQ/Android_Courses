@@ -7,11 +7,6 @@
     tools:context=".SecondActivity">
 
     <androidx.fragment.app.FragmentContainerView
-        android:id="@+id/fragment_container_view"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
-
-    <androidx.fragment.app.FragmentContainerView
         android:id="@+id/fragment1"
         android:name="ilyasov.androidstartapp.FirstFragment"
         android:layout_width="410dp"
@@ -20,12 +15,26 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="322dp"
+        android:layout_height="52dp"
+        android:layout_marginBottom="404dp"
+        android:text="Fucking Slaves!!!"
+        android:textSize="34sp"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.494"
+        app:layout_constraintStart_toStartOf="parent" />
+
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/fragment2"
         android:name="ilyasov.androidstartapp.SecondFragment"
-        android:layout_width="410dp"
-        android:layout_height="493dp"
+        android:layout_width="409dp"
+        android:layout_height="369dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent" >
+    </androidx.fragment.app.FragmentContainerView>
 </androidx.constraintlayout.widget.ConstraintLayout>
