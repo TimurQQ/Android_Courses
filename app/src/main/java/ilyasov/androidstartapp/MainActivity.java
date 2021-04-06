@@ -1,9 +1,6 @@
 package ilyasov.androidstartapp;
 
 import androidx.appcompat.app.AppCompatActivity;
-
-import android.app.Activity;
-import android.content.Context;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -13,12 +10,14 @@ import android.content.Intent;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
+import java.io.FileOutputStream;
+import java.io.IOException;
 
 public class MainActivity extends AppCompatActivity {
     Thread thread;
     String toActivity = " ";
+    private final static String FILE_NAME = "file.txt";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,17 +31,35 @@ public class MainActivity extends AppCompatActivity {
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                toActivity = "Hello " + s;
+                toActivity = "\t" + s;
             }
             @Override
             public void afterTextChanged(Editable s) {}
         });
 
+        OnClickListener saveClick= new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                try {
+                    FileOutputStream fos = openFileOutput(FILE_NAME, MODE_PRIVATE);
+                    fos.write(toActivity.getBytes());
+                    Toast toast = Toast.makeText(v.getContext(), "Файл сохранен", Toast.LENGTH_LONG);
+                    toast.show();
+                } catch (IOException e) {
+                    Toast toast = Toast.makeText(getBaseContext(), e.getMessage(), Toast.LENGTH_LONG);
+                    toast.show();
+                }
+            }
+        };
+
+        Button saveBtn = (Button) findViewById(R.id.save_button);
+        saveBtn.setOnClickListener(saveClick);
+
         OnClickListener BtnClick = new OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(v.getContext(), SecondActivity.class);
-                intent.putExtra("MyName", toActivity);
+                intent.putExtra("FileName", FILE_NAME);
                 startActivity(intent);
             }
         };
