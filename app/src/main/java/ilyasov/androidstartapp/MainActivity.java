@@ -14,8 +14,8 @@ import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
     Thread thread;
-    String toActivity = " ";
-    private final static String FILE_NAME = "file.txt";
+    String dataString = " ";
+    FileManager manager = new FileManager();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,7 +29,7 @@ public class MainActivity extends AppCompatActivity {
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                toActivity = "\t" + s;
+                dataString = "\t" + s;
             }
             @Override
             public void afterTextChanged(Editable s) {}
@@ -38,8 +38,7 @@ public class MainActivity extends AppCompatActivity {
         OnClickListener saveClick= new OnClickListener() {
             @Override
             public void onClick(View v) {
-                FileManager manager = new FileManager();
-                manager.setDataToFile(FILE_NAME, toActivity, getBaseContext());
+                manager.setDataToFile(dataString, getBaseContext());
             }
         };
 
@@ -50,7 +49,6 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(v.getContext(), SecondActivity.class);
-                intent.putExtra("FileName", FILE_NAME);
                 startActivity(intent);
             }
         };

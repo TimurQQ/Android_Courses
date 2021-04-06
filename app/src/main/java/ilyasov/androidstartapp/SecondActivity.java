@@ -7,21 +7,18 @@ import android.widget.Button;
 import android.widget.TextView;
 
 public class SecondActivity extends AppCompatActivity {
+    FileManager manager = new FileManager();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_second);
-
-        Bundle arguments = getIntent().getExtras();
-        String name = arguments.get("FileName").toString();
         TextView textView = (TextView) findViewById(R.id.textView);
 
         View.OnClickListener loadClick= new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                FileManager manager = new FileManager();
-                manager.getDataFromFile(name, textView, getBaseContext());
+                manager.getDataFromFile(textView, getBaseContext());
             }
         };
 

@@ -6,13 +6,14 @@ import android.widget.Toast;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
-
 import static android.content.Context.MODE_PRIVATE;
 
 public class FileManager {
-    public void setDataToFile(String fileName, String value, Context context){
+    private final static String FILE_NAME = "file.txt";
+
+    public void setDataToFile(String value, Context context){
         try {
-            FileOutputStream fos = context.openFileOutput(fileName, MODE_PRIVATE);
+            FileOutputStream fos = context.openFileOutput(FILE_NAME, MODE_PRIVATE);
             fos.write(value.getBytes());
             Toast toast = Toast.makeText(context, "Файл сохранен", Toast.LENGTH_LONG);
             toast.show();
@@ -21,9 +22,9 @@ public class FileManager {
             toast.show();
         }
     }
-    public void getDataFromFile(String fileName, TextView textView, Context context) {
+    public void getDataFromFile(TextView textView, Context context) {
         try {
-            FileInputStream fin = context.openFileInput(fileName);
+            FileInputStream fin = context.openFileInput(FILE_NAME);
             byte[] bytes = new byte[fin.available()];
             fin.read(bytes);
             String text = new String(bytes);
