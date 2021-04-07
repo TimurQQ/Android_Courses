@@ -1,9 +1,6 @@
 package ilyasov.androidstartapp;
 
 import androidx.appcompat.app.AppCompatActivity;
-
-import android.app.Activity;
-import android.content.Context;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -13,40 +10,59 @@ import android.content.Intent;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
-public class MainActivity extends AppCompatActivity {
-    Thread thread;
-    String toActivity = " ";
+import java.io.File;
+
+public class MainActivity extends AppCompatActivity{
+    private Thread thread;
+    private String dataString = " ";
+    private final FileManager manager = new FileManager();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        EditText editText = (EditText) findViewById(R.id.editTextTextPersonName);
+        manager.registerCallBack(new FileManager.Callback() {
+            @Override
+            public void callingBack(String s) {
+                Toast toast = Toast.makeText(getBaseContext(), s, Toast.LENGTH_LONG);
+                toast.show();
+            }
+        });
+
+        EditText editText = findViewById(R.id.editTextTextPersonName);
 
         editText.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                toActivity = "Hello " + s;
+                dataString = "\t" + s;
             }
             @Override
             public void afterTextChanged(Editable s) {}
         });
 
+        OnClickListener saveClick= new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                manager.setDataToFile(dataString, getBaseContext());
+            }
+        };
+
+        Button saveBtn = findViewById(R.id.save_button);
+        saveBtn.setOnClickListener(saveClick);
+
         OnClickListener BtnClick = new OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(v.getContext(), SecondActivity.class);
-                intent.putExtra("MyName", toActivity);
                 startActivity(intent);
             }
         };
-        Button btn = (Button) findViewById(R.id.button);
+        Button btn = findViewById(R.id.button);
         btn.setOnClickListener(BtnClick);
         initThreadClick();
         initToastClick();
