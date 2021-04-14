@@ -14,9 +14,12 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
+import java.util.TreeSet;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.FutureTask;
@@ -110,6 +113,13 @@ public class MainActivity extends AppCompatActivity{
         addElemsForLists(a, b);
         searchElemsInList(a);
         searchElemsInList(b);
+
+        //Some Tests
+        Integer[] mas = {1, 2, 3, 4, 5, 4, 4, 5, 6, 8, 4};
+        Log.d("MASSIVE", Arrays.toString(deleteAll(4, mas)));
+        ArrayList container = new ArrayList(Arrays.asList(mas));
+        Log.d("CONTAINER", removeDuplicates(container).toString());
+        //
     }
 
     private void initThreadClick() {
@@ -202,5 +212,23 @@ public class MainActivity extends AppCompatActivity{
             }
         });
         thread.start();
+    }
+
+    private Integer[] deleteAll(Integer value, Integer[] mas) {
+        int cnt = 0;
+        for (int i = 0; i < mas.length; ++i) {
+            if (mas[i] == value) ++cnt;
+        }
+        Integer[] filtered = new Integer[mas.length - cnt];
+        for (int i = 0, j = 0; i < mas.length; ++i) {
+            if (mas[i] == value) continue;
+            filtered[j++] = mas[i];
+        }
+        return filtered;
+    }
+
+    private Collection removeDuplicates(Collection container) {
+        TreeSet x = new TreeSet(container);
+        return x;
     }
 }
