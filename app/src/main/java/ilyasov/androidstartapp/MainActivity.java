@@ -13,6 +13,10 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Random;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.FutureTask;
@@ -28,6 +32,8 @@ public class MainActivity extends AppCompatActivity{
     private Callable callable;
     FutureTask future;
     private int x;
+    ArrayList<Integer> a = new ArrayList<>();
+    LinkedList<Integer> b = new LinkedList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -101,6 +107,9 @@ public class MainActivity extends AppCompatActivity{
         initThreadClick();
         initToastClick();
         initCountUpClick();
+        addElemsForLists(a, b);
+        searchElemsInList(a);
+        searchElemsInList(b);
     }
 
     private void initThreadClick() {
@@ -155,5 +164,43 @@ public class MainActivity extends AppCompatActivity{
             }
         };
         return callable;
+    }
+
+    private void addElemsForLists(List<Integer> a, List<Integer> b) {
+        long start = System.currentTimeMillis();
+        Random random = new Random();
+        for (int i = 0; i < 1000000; ++i) {
+            a.add(random.nextInt());
+        }
+        long finish = System.currentTimeMillis();
+        long timeElapsed = finish - start;
+        Log.d("LIST_TIME", "ArrayList Add: " + timeElapsed + "milliseconds");
+        start = System.currentTimeMillis();
+        for (int i = 0; i < 1000000; ++i) {
+            b.add(random.nextInt());
+        }
+        finish = System.currentTimeMillis();
+        timeElapsed = finish - start;
+        Log.d("LIST_TIME", "LinkedList Add: " + timeElapsed + "milliseconds");
+    }
+
+    private void searchElemsInList(List<Integer> x) {
+        Random random = new Random();
+        Log.d("LIST_TYPE", x.getClass().toString());
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                    Log.d("RUN", x.getClass().toString());
+                    long start = System.currentTimeMillis();
+                    for (int i = 0; i < 100000; ++i) {
+                        int index = random.nextInt(x.size() - 1);
+                        int elem = x.get(index);
+                    }
+                    long finish = System.currentTimeMillis();
+                    long timeElapsed = finish - start;
+                    Log.d("LIST_TIME", x.getClass() + " GetByTheIndex: " + timeElapsed + "milliseconds");
+            }
+        });
+        thread.start();
     }
 }
