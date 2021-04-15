@@ -262,7 +262,6 @@ public class MainActivity extends AppCompatActivity{
     }
 
     private Boolean isPalindrom(String s) {
-        String reversed = new StringBuilder(s).reverse().toString();
-        return s.trim().equalsIgnoreCase(reversed.trim());
+        return s.trim().equalsIgnoreCase(new StringBuilder(s).reverse().toString().trim());
     }
 }
