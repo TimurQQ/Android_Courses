@@ -1,10 +1,13 @@
 package ilyasov.androidstartapp;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import android.annotation.SuppressLint;
+import android.os.Build;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.util.Pair;
 import android.view.View;
 import android.os.Bundle;
 import android.content.Intent;
@@ -16,8 +19,10 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 import java.util.TreeSet;
 import java.util.concurrent.Callable;
@@ -25,6 +30,8 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.FutureTask;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class MainActivity extends AppCompatActivity{
     private Thread thread;
@@ -38,6 +45,7 @@ public class MainActivity extends AppCompatActivity{
     ArrayList<Integer> a = new ArrayList<>();
     LinkedList<Integer> b = new LinkedList<>();
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -119,6 +127,16 @@ public class MainActivity extends AppCompatActivity{
         Log.d("MASSIVE", Arrays.toString(deleteAll(4, mas)));
         ArrayList container = new ArrayList(Arrays.asList(mas));
         Log.d("CONTAINER", removeDuplicates(container).toString());
+        //
+        //Task18
+        Map<String, Integer> map = Stream.of(
+                new Pair<>("Hello", 123),
+                new Pair<>("World", 12223),
+                new Pair<>("Timur", 666))
+                .collect(Collectors.toMap(pair -> pair.first, pair -> pair.second));
+        printHashMapElements(map);
+        String s = "HELLOLLEH";
+        Log.d("PALINDROM", isPalindrom(s).toString());
         //
     }
 
@@ -230,5 +248,21 @@ public class MainActivity extends AppCompatActivity{
     private Collection removeDuplicates(Collection container) {
         TreeSet x = new TreeSet(container);
         return x;
+    }
+
+    private void printHashMapElements(Map<String, Integer> map) {
+        for (String key : map.keySet()) {
+            Log.d("HASH_MAP_FOR",key + " : " + map.get(key));
+        }
+        Iterator iter = map.entrySet().iterator();
+        while(iter.hasNext()) {
+            Map.Entry entry = (Map.Entry) iter.next();
+            Log.d("HASH_MAP_WHILE", entry.getKey() + " : " + entry.getValue());
+        }
+    }
+
+    private Boolean isPalindrom(String s) {
+        String reversed = new StringBuilder(s).reverse().toString();
+        return s.trim().equalsIgnoreCase(reversed.trim());
     }
 }
